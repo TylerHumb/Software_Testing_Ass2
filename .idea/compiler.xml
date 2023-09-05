@@ -6,6 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="Software_Testing_Ass2" />
         <module name="JunitAss2" />
       </profile>
     </annotationProcessing>
