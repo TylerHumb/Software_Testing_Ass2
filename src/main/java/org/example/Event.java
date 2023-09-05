@@ -9,6 +9,8 @@ import java.util.Scanner;
 public class Event {
     static ArrayList<BasicData> Admin;
     static ArrayList<BasicData> Student;
+    //I have refactored the code to take in a Scanner in the construction of the Event object,
+    // this allows me to use Mockito for testing which makes testing user input far easier
     Scanner in;
 
     Event(Scanner in)
@@ -155,7 +157,7 @@ public class Event {
         return Student.size();
     }
 
-    public static void rewriteStudentFile()
+    public void rewriteStudentFile()
     {
         try{
             BufferedWriter out_Student = new BufferedWriter (new FileWriter("student.txt"));
