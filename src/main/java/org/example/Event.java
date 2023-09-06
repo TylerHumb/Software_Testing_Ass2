@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Event {
-     ArrayList<BasicData> Admin;
-     ArrayList<BasicData> Student;
+     static ArrayList<BasicData> Admin;
+     static ArrayList<BasicData> Student;
     //I have refactored the code to take in a Scanner in the construction of the Event object,
     // this allows me to use Mockito for testing which makes testing user input far easier
     Scanner in;
@@ -16,8 +16,8 @@ public class Event {
     Event(Scanner in)
     {
         try{
-            Admin = new ArrayList<BasicData>();
-            Student = new ArrayList<BasicData>();
+             Admin = new ArrayList<BasicData>();
+             Student = new ArrayList<BasicData>();
 
             BufferedReader in_Admin = new BufferedReader (new FileReader("admin.txt"));
             BufferedReader in_Student = new BufferedReader (new FileReader("student.txt"));
@@ -60,15 +60,16 @@ public class Event {
     }
 
 
-    public boolean AdminLogin(Scanner in)
+    public boolean AdminLogin()
     {
         String name;
         String password;
 
         System.out.print("\nEnter Admin's Name: ");
-        name = in.nextLine();
+        // had to switch this to next instead of nextLine as it kept printing both "enter admins name" and "enter admins password at the same time
+        name = in.next();
         System.out.print("Enter Admin's Password: ");
-        password = in.nextLine();
+        password = in.next();
 
         for(int i = 0; i<Admin.size();i++)
         {
@@ -157,7 +158,7 @@ public class Event {
         return Student.size();
     }
 
-    public void rewriteStudentFile()
+    public static void rewriteStudentFile()
     {
         try{
             BufferedWriter out_Student = new BufferedWriter (new FileWriter("student.txt"));

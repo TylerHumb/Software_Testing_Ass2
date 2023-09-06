@@ -7,10 +7,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.spy;
 @SpiraTestConfiguration(
         //following are REQUIRED
@@ -23,7 +24,6 @@ import static org.mockito.Mockito.spy;
 class EventTest {
     Scanner scnr= Mockito.mock(Scanner.class);
     Event testevent;
-    Event Backup = new Event(scnr);
     @BeforeEach
     void Setup(){
         testevent = new Event(scnr);
@@ -31,21 +31,36 @@ class EventTest {
     @AfterEach
     void restore(){
         //rewrites the user file for tests that alter it
-        Backup.viewStudentDetails();
-        Backup.rewriteStudentFile();
-        System.out.println("Rewritten");
+        try{
+            BufferedWriter out_Student = new BufferedWriter (new FileWriter("student.txt"));
+            out_Student.write("""
+                   Id:7654324, Name:Student1, Password:p7654324#
+                   Id:7654325, Name:Student2, Password:p7654325#
+                   Id:7654326, Name:Student3, Password:p7654326#
+                   Id:7654327, Name:Student4, Password:p7654327#
+                   Id:7654328, Name:Student5, Password:p7654328#
+                   Id:7654329, Name:Student6, Password:p7654329#
+                   Id:7654330, Name:Student7, Password:p7654330#
+                   Id:7654331, Name:Student8, Password:p7654331#
+                   Id:7654332, Name:Student9, Password:p7654332#""");
+
+            out_Student.close();
+
+        }
+        catch(Exception e)
+        { }
     }
     @Test
     @SpiraTestCase(testCaseId = 1373)
     public void ValidAdminLoginTest() {
-        Mockito.when(scnr.nextLine()).thenReturn("Admin1").thenReturn("pass1");
-        assertTrue(testevent.AdminLogin(scnr));
+        Mockito.when(scnr.next()).thenReturn("Admin1").thenReturn("pass1");
+        assertTrue(testevent.AdminLogin());
     }
     @Test
     @SpiraTestCase(testCaseId = 375)
     public void InvalidAdminLoginTest() {
         Mockito.when(scnr.nextLine()).thenReturn("wrong").thenReturn("pass1");
-        assertFalse(testevent.AdminLogin(scnr));
+        assertFalse(testevent.AdminLogin());
     }
     @Test
     @SpiraTestCase(testCaseId = 1413)
@@ -80,7 +95,7 @@ class EventTest {
     @Test
     @SpiraTestCase(testCaseId = 1418)
     public void StudentCountTest(){
-        assertEquals(testevent.countStudent(),9);
+        assertSame(testevent.countStudent(),9);
     }
     @Test
     @SpiraTestCase(testCaseId = 1419)
@@ -116,7 +131,6 @@ class EventTest {
     @SpiraTestCase(testCaseId = 1424)
     public void InvalidAddStudentPasswords() {
         Event fakeevent = spy(new Event(scnr));
-        doNothing().when(fakeevent).rewriteStudentFile();
         assertAll(
                 () -> {
                     Mockito.when(scnr.nextInt()).thenReturn(20202020);
