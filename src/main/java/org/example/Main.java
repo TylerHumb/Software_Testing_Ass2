@@ -25,7 +25,7 @@ public class Main {
                 if(choice == 1)
                 {
                     System.out.println("\nNOTE: Check respective file for getting credentials");
-                    if(ems.AdminLogin())
+                    if(ems.AdminLogin(in))
                     {
                         int c = 0;
                         while (c != 6)

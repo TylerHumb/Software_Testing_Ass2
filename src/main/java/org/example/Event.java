@@ -60,7 +60,7 @@ public class Event {
     }
 
 
-    public boolean AdminLogin()
+    public boolean AdminLogin(Scanner in)
     {
         String name;
         String password;
